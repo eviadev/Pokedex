@@ -1,32 +1,31 @@
-import React, { Component } from 'react';
-import PokeList from './PokeList';
-import DetailView from './DetailView';
-import Pokemon from '../Pokemon';
-import './styles/App.css';
+import React, { Component } from "react";
+import PokeList from "./PokeList";
+import DetailView from "./DetailView";
+import Pokemon from "../Pokemon";
+import "./styles/App.css";
 
 class CardPokedex extends Component {
   constructor() {
     super();
     this.state = {
-      pokemon: {}
+      pokemon: {},
     };
     this.handleOnClick = this.handleOnClick.bind(this);
   }
 
   handleOnClick(id) {
-    fetch(`http://pokeapi.co/api/v2/pokemon/${id}/`)
-      .then(res => res.json())
-      .then(data => {
+    fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+      .then((res) => res.json())
+      .then((data) => {
         const pokemon = new Pokemon(data);
 
         this.setState({ pokemon });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
 
   render() {
     return (
-      
       <div className="App">
         <PokeList handleOnClick={this.handleOnClick} />
         <DetailView pokemon={this.state.pokemon} />

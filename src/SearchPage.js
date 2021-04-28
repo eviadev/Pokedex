@@ -1,39 +1,32 @@
-import React, { Component } from "react";
-import axios from "axios";
-import TextField from "@material-ui/core/TextField";
+import React, {Component} from 'react';
+import { searchPokemon } from './PokemonActions';
 
-export default class SearchPage extends Component {
+export default class Searchbar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: "",
-      name: "",
-      open: false,
-    };
-  }
-  componentDidMount() {}
+    this.state = {value: ''};
 
-  search = () => {
-    const { name } = this.state;
-    // console.log(this.state.name);
-    axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`).then((res) => {
-      console.log(res);
-      this.setState({ data: res.data });
-    });
-  };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+  
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.dispatch(searchPokemon(this.state.value));
+  }
+  
   render() {
     return (
-      <div>
-        <div className="search-bar">
-          <TextField
-            label="Name"
-            onChange={(e) => this.setState({ name: e.target.value })}
-          />
-          <button onClick={this.search}>Rechercher</button>
+      <form onSubmit={this.handleSubmit}>
+        <div className="searchbar">
+          <input type="text" placeholder="Search" value={this.state.value} onChange={this.handleChange}/>
         </div>
-        {this.state.data.name}
-        
-      </div>
-    );
+      </form>
+      
+    )
   }
 }

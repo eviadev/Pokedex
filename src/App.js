@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Card from './components/Card';
 import { getPokemon, getAllPokemon } from './services/pokemon';
 import './App.css';
+import { VscLoading } from 'react-icons/vsc';
 
 function App() {
   const [pokemonData, setPokemonData] = useState([])
@@ -53,11 +54,11 @@ function App() {
     <>
       <Navbar />
       <div>
-        {loading ? <h1 style={{ textAlign: 'center' }}>Loading...</h1> : (
+        {loading ? <h1 style={{ textAlign: 'center' }}><VscLoading /></h1> : (
           <>
             <div className="btn">
-              <button onClick={prev}>Prev</button>
-              <button onClick={next}>Next</button>
+              <button onClick={prev}>Précédent</button>
+              <button onClick={next}>Suivant</button>
             </div>
             <div className="grid-container">
               {pokemonData.map((pokemon, i) => {
@@ -65,8 +66,8 @@ function App() {
               })}
             </div>
             <div className="btn">
-              <button onClick={prev}>Prev</button>
-              <button onClick={next}>Next</button>
+              <button onClick={prev}>Précédent</button>
+              <button onClick={next}>Suivant</button>
             </div>
           </>
         )}

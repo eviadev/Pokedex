@@ -1,68 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Pokédex
+
+A modern Pokédex experience powered by React 18, Vite, Tailwind CSS, and TypeScript. The interface is responsive, accessible, and optimized for quick browsing across the full Pokédex catalogue.
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+The dev server starts at `http://localhost:5173` with hot module replacement enabled.
 
 ## Available Scripts
 
-In the project directory, you can run:
+- `npm run dev` – start the Vite development server.
+- `npm run build` – type-check the project and create a production build in `dist/`.
+- `npm run preview` – serve the production build locally.
+- `npm run lint` – run ESLint across the TypeScript source.
 
-### `npm start`
+## Architecture Overview
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+src/
+├─ app/                    # Application shell, layout, and top-level state
+│  ├─ App.tsx              # Root component and page composition
+│  └─ components/          # App-level UI primitives (header, etc.)
+├─ components/ui/          # Reusable presentation primitives (buttons, spinner)
+├─ features/pokedex/       # Pokédex feature modules
+│  ├─ api/                 # Fetch clients and API helpers
+│  ├─ components/          # Feature-specific UI (cards, grid)
+│  ├─ hooks/               # Domain-specific hooks (pagination, data fetching)
+│  ├─ types/               # TypeScript contracts for the PokéAPI
+│  └─ utils/               # Formatting helpers
+├─ lib/                    # Cross-cutting utilities (HTTP client)
+└─ main.tsx                # Application entrypoint
+```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Data Fetching
 
-### `npm test`
+Requests to the public [PokéAPI](https://pokeapi.co/) are routed through a small `fetchJson` helper (`src/lib/apiClient.ts`) and feature-specific light wrappers (`src/features/pokedex/api`). The `usePokedex` hook handles pagination, aborts in-flight requests, and exposes a clean interface to the UI layer.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Styling
 
-### `npm run build`
+Tailwind CSS powers all styling. Global primitives live in `src/index.css`, while components compose utility classes for layout and stateful feedback (loading overlays, hover states, etc.).
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Performance & Accessibility
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+- Lazy loading of sprite assets via browser-native `loading="lazy"`
+- Abortable fetches prevent race conditions during rapid pagination
+- Keyboard focus management via semantic HTML and Tailwind focus utilities
+- Type-safe data flow with strict TypeScript configuration
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Next Steps
 
-### `npm run eject`
+- Extend search to support type filters and server-side queries
+- Add automated accessibility tests (axe / Playwright)
+- Cache previously fetched pages to minimize network chatter
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
